@@ -88,18 +88,12 @@ public class SearchListener implements ActionListener {
       
 
         }
-        
-        //----------------------------------
-        
+
         for (String key : Aquery.keySet()) {                  
                        QWtfidf = computeDistanceListener.tfIdf(Aquery.get(key), SocNet.tags.get(key).size(),key);
-
                        System.out.println("Qtfidf = "+QWtfidf);
-                       
                        usrs = SocNet.tags.get(key);
-                       
-                       for(int i=0;i<usrs.size();i++){
-                           
+                       for(int i=0;i<usrs.size();i++){ 
                            if(totalUsers.containsKey(String.valueOf(usrs.get(i).UserId))){
                              //  System.out.println("*********frequ = "+totalUsers.get(String.valueOf(usrs.get(i).UserId))+" + "+computeDistanceListener.tfIdf(usrs.get(i).frequ, usrs.size())+" ::: usrs,frequ = "+usrs.get(i).frequ+" usrs.size = "+usrs.size());
                                totalUsers.put(String.valueOf(usrs.get(i).UserId),totalUsers.get(String.valueOf(usrs.get(i).UserId))+ Math.pow(computeDistanceListener.tfIdf(usrs.get(i).frequ, usrs.size(),key)-QWtfidf,2) );
@@ -112,18 +106,13 @@ public class SearchListener implements ActionListener {
                              //  System.out.println("^^^^^^frequ = "+usrs.get(i).frequ+" Scor = "+QWtfidf+"  ursr.size = "+usrs.size());
                                minus = computeDistanceListener.tfIdf(usrs.get(i).frequ, usrs.size(),key);
                            }
-                           
                            SocNet.usersCosDist[usrs.get(i).UserId]-=Math.pow(minus,2);
-                       }
-                       
-                       
+                       }        
           }
         
         for (String key : totalUsers.keySet()) {
-                    
                           totalUsers.put(key, Math.sqrt(totalUsers.get(key)+(SocNet.usersCosDist[Integer.parseInt(key)])));
                         // System.out.println("Qnorm = "+Qnorm+"  dianisma 4 = "+SocNet.usersCosDist[Integer.parseInt(key)]);
-                    
                 }
         
         
@@ -135,7 +124,6 @@ public class SearchListener implements ActionListener {
                                MainFrame.d1.addRow(new Object[]{key,value});
                  }
      }
-    
     
     public void cosineSimilarity(){
         totalUsers.clear();
@@ -151,11 +139,8 @@ public class SearchListener implements ActionListener {
         Scanner qw = new Scanner(query);
         
         while(qw.hasNext()){
-            
             qword = qw.next();
-            
             if(Aquery.containsKey(qword)){
-                
                 Aquery.put(qword, Aquery.get(qword)+1);
             }
             else{
@@ -169,7 +154,6 @@ public class SearchListener implements ActionListener {
                        usrs = SocNet.tags.get(key);
                        
                        for(int i=0;i<usrs.size();i++){
-                           
                            if(totalUsers.containsKey(String.valueOf(usrs.get(i).UserId))){
                              //  System.out.println("*********frequ = "+totalUsers.get(String.valueOf(usrs.get(i).UserId))+" + "+computeDistanceListener.tfIdf(usrs.get(i).frequ, usrs.size())+" ::: usrs,frequ = "+usrs.get(i).frequ+" usrs.size = "+usrs.size());
                                totalUsers.put(String.valueOf(usrs.get(i).UserId),totalUsers.get(String.valueOf(usrs.get(i).UserId))+ computeDistanceListener.tfIdf(usrs.get(i).frequ, usrs.size(),key)*QWtfidf );
@@ -184,17 +168,13 @@ public class SearchListener implements ActionListener {
                        
                        
           }
-            //-----------------------------adding the normalization
-            
+            //-----------------------------normalizing
                 for (String key : totalUsers.keySet()) {
                           totalUsers.put(key, totalUsers.get(key)/(Math.sqrt(Qnorm)*Math.sqrt(SocNet.usersCosDist[Integer.parseInt(key)])));
                          System.out.println("Qnorm = "+Qnorm+"  dianisma 4 = "+SocNet.usersCosDist[Integer.parseInt(key)]);
                 }
-            
-            
-            
+
             //-------------------------sorting
-            
             totalUsersSorted.putAll(totalUsers);
 			
             for(Map.Entry<String,Double> entry : totalUsersSorted.entrySet()) {
@@ -203,9 +183,7 @@ public class SearchListener implements ActionListener {
                                MainFrame.d1.addRow(new Object[]{key,value});
                     
                  }
-            System.out.println("results :"+totalUsersSorted);
-            
-            
+            System.out.println("results :"+totalUsersSorted);      
 }              
 
     public void printMiniIndex(){
@@ -219,7 +197,6 @@ public class SearchListener implements ActionListener {
     }
 
     public void fillV(){
-        
                     Iterator it = SocNet.tags.entrySet().iterator();
                    while (it.hasNext()) {
                                 Map.Entry pairs = (Map.Entry)it.next();
@@ -235,7 +212,6 @@ public class SearchListener implements ActionListener {
     public void CalculateIdf(String qword1){
         int N = SocNet.tags.size();
         
-      
         Double tf = 0.0;
         ArrayList<DoFre> gmp = SocNet.tags.get(qword);
         System.out.println();
@@ -246,7 +222,6 @@ public class SearchListener implements ActionListener {
 
                     System.out.print("TfIdf = "+tf*idf+" , ");
                 }
-      
         }
         else{
             System.out.print("Wrong!!");
@@ -255,7 +230,6 @@ public class SearchListener implements ActionListener {
         System.out.println();
     }
     public void FillVit(String qword) throws FileNotFoundException{
-        
          //open and read the file
         String line="";
         String tmp = "";
@@ -292,8 +266,6 @@ public class SearchListener implements ActionListener {
                       tmp+=line.charAt(i);
                       i++;
                   }
-                  
-                  
               }
               tags1.clear();
           }
@@ -301,17 +273,11 @@ public class SearchListener implements ActionListener {
         
     }
     
-    
-    
-    
-    
+
     public double CalculateVlen(){
         return 0;
     }
-    
-    
 }
-
 
 class ValueComparator implements Comparator<String> {
 
